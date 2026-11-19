@@ -1,0 +1,172 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 5,
+  "metadata": {
+    "language_info": {
+      "name": "java"
+    }
+  },
+  "cells": [
+    {
+      "id": "5402b0df-d8fc-4a92-b29e-e9520146226e",
+      "cell_type": "markdown",
+      "source": "# Course1_Week1_Optional_Lab_Model_Representation (Java Lab)",
+      "metadata": {
+        "language": "markdown",
+        "id": "5402b0df-d8fc-4a92-b29e-e9520146226e"
+      }
+    },
+    {
+      "id": "50877f29-4d2a-4a29-837f-97209fc64c14",
+      "cell_type": "markdown",
+      "source": "## Notation : ",
+      "metadata": {
+        "language": "markdown",
+        "id": "50877f29-4d2a-4a29-837f-97209fc64c14"
+      }
+    },
+    {
+      "id": "69aa9819-b8a1-4e18-a9bc-18707fa5e3b2",
+      "cell_type": "markdown",
+      "source": "- $a$ ---> scalar value \r\n- $\\vec{a}$ or $\\mathbf{a} $ (bold) ---> vector value <br>\r\nRegression : \r\n- $\\vec{x}$ ---> Training Example feature values (in this lab - Size or Area (1000 square feet)) ---> `float[] samplesFeatureValues;` <br>\r\n- $\\vec{y}$ ---> Training Example target values (in this lab Price (1000s of dollars)) ---> `float[] samplesTargetValues;` <br>\r\n- $m$ ---> Number of training examples (sample size) ---> `int sampleCount = samplesFeatureValues.lenght;` <br>\r\n- $x^{(i)}$ ---> $i^{th}$ sample feature value ---> `float iThSampleFeatureValue = samplesFeatureValues[i];` <br>\r\n- $y^{(i)}$ ---> $i^{th}$ sample target value ---> `float iThSampleTargetValue = samplesTargetValues[i];` <br>\r\n- $f$ ---> Prediction linear ***function***, also known ***hypothesis***  ($f(x) = w\\cdot x + b$) <br> ----> \r\n`java.util.function.Function<Float,Float> singleVariablePredictionFunction = x -> w * x + b;` <br>\r\n- $w$ ---> $f$'s ***weight*** ---> It is a ***scalar*** value\r\n- $b$ ---> $f$'s ***bias*** ---> It is a ***scalar*** value\r\n- $f_{w,b}(x^{(i)}) = f(x^{(i)}) = w \\cdot x^{(i)} + b$ ---> $i^{th}$ sample target predict <br> \r\n---> `float predictForIThSample = singleVariablePredictionFunction.apply(samplesFeatureValues[i]);` ",
+      "metadata": {
+        "language": "markdown",
+        "id": "69aa9819-b8a1-4e18-a9bc-18707fa5e3b2"
+      }
+    },
+    {
+      "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48",
+      "cell_type": "markdown",
+      "source": "## Tools : \r\n- ND4J : NumPy Like Java dependency  ---> `import org.nd4j.*;`\r\n",
+      "metadata": {
+        "language": "markdown",
+        "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48"
+      }
+    },
+    {
+      "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
+      "cell_type": "code",
+      "source": "import org.nd4j.linalg.api.ndarray.INDArray;\r\nimport org.nd4j.linalg.factory.Nd4j;",
+      "metadata": {
+        "language": "java",
+        "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
+        "executionSummary": {
+          "executionOrder": 7,
+          "success": true
+        }
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "id": "62fa04ac-a465-4964-9d0e-bae23c3ed1bc",
+      "cell_type": "markdown",
+      "source": "### We have 2 samples : (1000 sqft, 300_000 dollars) and (2000 sqft, 500_000 dollars). ",
+      "metadata": {
+        "language": "markdown",
+        "id": "62fa04ac-a465-4964-9d0e-bae23c3ed1bc"
+      }
+    },
+    {
+      "id": "3f06cf81-fc9e-476a-8f1e-5e2a5b1a034e",
+      "cell_type": "code",
+      "source": "INDArray features = Nd4j.create(new float[] {1.f, 2.f});    // [1, 2]      (1000 sqft)\r\nINDArray targets = Nd4j.create(new float[] {300.f, 500.f}); // [300, 500]  (1000s of dollars) \r\n\r\nlong sampleSize = features.length();\r\nif (sampleSize != targets.length())\r\n    throw new RuntimeException(\"Features size should be equal to Targets size !!\");\r\n\r\nSystem.out.println(\"Sample size m = \" + sampleSize);    //Sample size m = 2\r\n",
+      "metadata": {
+        "language": "java",
+        "id": "3f06cf81-fc9e-476a-8f1e-5e2a5b1a034e",
+        "executionSummary": {
+          "executionOrder": 8,
+          "success": true
+        }
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "Sample size m = 2\r\n"
+          },
+          "metadata": {},
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "id": "f496cb3d-d0cf-4b58-8b41-a4b290245d37",
+      "cell_type": "code",
+      "source": "float weight = 100.f;\r\nfloat bias = 100.f;\r\n\r\njava.util.function.Function<Float,Float> singleVariablePredictFunction = featureValue -> weight * featureValue + bias;\r\nfloat firstSampleFeature = features.getFloat(0);\r\nfloat predictTargetFirstSample = singleVariablePredictFunction.apply(firstSampleFeature);\r\n\r\nSystem.out.println(\"First sample's feature = \" + firstSampleFeature + \"* 1000 sqft, Function predict = \" + predictTargetFirstSample + \r\n    \"*1000 dollars, Real = \" + targets.getFloat(0) + \"*1000 dollars\"\r\n);\r\n//First sample's feature = 1.0* 1000 sqft, Function predict = 200.0*1000 dollars, Real = 300.0*1000 dollars",
+      "metadata": {
+        "language": "java",
+        "id": "f496cb3d-d0cf-4b58-8b41-a4b290245d37",
+        "executionSummary": {
+          "executionOrder": 9,
+          "success": true
+        }
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "First sample's feature = 1.0* 1000 sqft, Function predict = 200.0*1000 dollars, Real = 300.0*1000 dollars\r\n"
+          },
+          "metadata": {},
+          "execution_count": 9
+        }
+      ]
+    },
+    {
+      "id": "0158cd9e-7ea3-4216-b617-78038a24e952",
+      "cell_type": "code",
+      "source": "java.util.function.Function<INDArray,INDArray> singleVariablePredictFunctionForArray = featureArray -> {\r\n    int m = (int) featureArray.length();\r\n    float[] predictArray = new float[m];\r\n    for (int i = 0; i < m; i++)\r\n        predictArray[i] = singleVariablePredictFunction.apply(featureArray.getFloat(i));\r\n    return Nd4j.create(predictArray);\r\n};",
+      "metadata": {
+        "language": "java",
+        "id": "0158cd9e-7ea3-4216-b617-78038a24e952",
+        "executionSummary": {
+          "executionOrder": 10,
+          "success": true
+        }
+      },
+      "execution_count": 10,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 10
+        }
+      ]
+    },
+    {
+      "id": "51557771-df73-4132-8444-7f2745cfaeee",
+      "cell_type": "code",
+      "source": "INDArray predictArray = singleVariablePredictFunctionForArray.apply(features);\r\nSystem.out.println(\"predictArray = \" + predictArray);  --> //predictArray = [  200.0000,  300.0000]\r\nSystem.out.println(\"targets = \" + targets);                //targets = [  300.0000,  500.0000]\r\n",
+      "metadata": {
+        "language": "java",
+        "id": "51557771-df73-4132-8444-7f2745cfaeee",
+        "executionSummary": {
+          "executionOrder": 11,
+          "success": true
+        }
+      },
+      "execution_count": 11,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "predictArray = [  200.0000,  300.0000]\r\ntargets = [  300.0000,  500.0000]\r\n"
+          },
+          "metadata": {},
+          "execution_count": 11
+        }
+      ]
+    }
+  ]
+}

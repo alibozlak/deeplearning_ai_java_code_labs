@@ -1,0 +1,160 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 5,
+  "metadata": {
+    "language_info": {
+      "name": "java"
+    }
+  },
+  "cells": [
+    {
+      "id": "cd12a2ad-921d-45e5-898a-072a9bc37f70",
+      "cell_type": "markdown",
+      "source": "## Second method For Predict Function :",
+      "metadata": {
+        "language": "markdown",
+        "id": "cd12a2ad-921d-45e5-898a-072a9bc37f70"
+      }
+    },
+    {
+      "id": "8b038c2d-f564-44e0-aa72-2a6dcfe3b80e",
+      "cell_type": "code",
+      "source": "import org.nd4j.linalg.api.ndarray.INDArray;\r\nimport org.nd4j.linalg.factory.Nd4j;\r\n\r\nimport java.util.function.Function;\r\n\r\nimport deeplearning_ai.machine_learning_specialization.course1.week1.*;",
+      "metadata": {
+        "language": "java",
+        "id": "8b038c2d-f564-44e0-aa72-2a6dcfe3b80e",
+        "executionSummary": {
+          "executionOrder": 30,
+          "success": true
+        }
+      },
+      "execution_count": 30,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 30
+        }
+      ]
+    },
+    {
+      "id": "476d9c0d-b0ea-4e5a-a049-31c5607577c0",
+      "cell_type": "code",
+      "source": "INDArray features = Nd4j.create(new float[] {1.f, 2.f});    // [1, 2]      (1000 sqft)\r\nINDArray targets = Nd4j.create(new float[] {300.f, 500.f}); // [300, 500]  (1000s of dollars) \r\n\r\nlong sampleSize = ValidateDataSet.validateFeatureArraySizeAndTargetArraySize(features, targets);\r\n\r\nfloat weight = 100.f;\r\nfloat bias = 100.f;\r\n\r\nFunction<INDArray, INDArray> singleVariableLinearFunction = new SingleVariablePredictFunction(weight, bias);\r\nINDArray predicts = singleVariableLinearFunction.apply(features);\r\n\r\nSystem.out.println(\"Predicts = \" + predicts + \" (1000s of dollars)\");    //Predicts = [  200.0000,  300.0000] (1000s of dollars)\r\n\r\nSystem.out.println(\"Real targets = \" + targets + \" (1000s of dollars)\"); //Real targets = [  300.0000,  500.0000] (1000s of dollars)",
+      "metadata": {
+        "language": "java",
+        "id": "476d9c0d-b0ea-4e5a-a049-31c5607577c0",
+        "executionSummary": {
+          "executionOrder": 31,
+          "success": true
+        }
+      },
+      "execution_count": 31,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "Predicts = [  200.0000,  300.0000] (1000s of dollars)\r\nReal targets = [  300.0000,  500.0000] (1000s of dollars)\r\n"
+          },
+          "metadata": {},
+          "execution_count": 31
+        }
+      ]
+    },
+    {
+      "id": "c1873947-1185-415c-a560-9d6f0d7aafe7",
+      "cell_type": "markdown",
+      "source": "We have ***just 2 samples***. So actually we don't need machine learning tecniquies :) <br>\r\n2 points describe a line. We can find $w$ and $b$ with ***analytic geometry*** or ***basic algebra*** : <br>\r\n$point1 = \\begin{bmatrix} 1 \\\\ 300 \\end{bmatrix} $ and $point2 = \\begin{bmatrix} 2 \\\\ 500 \\end{bmatrix} $ <br>\r\n\r\n`Analytic Geometry :` <br>\r\n\r\n$slope = w = \\frac{point2_{target} - point1_{target}}{point2_{feature} - point1_{feature}} $ ",
+      "metadata": {
+        "language": "markdown",
+        "id": "c1873947-1185-415c-a560-9d6f0d7aafe7"
+      }
+    },
+    {
+      "id": "cb92ee5b-4d86-41b3-9736-a28844c6e0da",
+      "cell_type": "code",
+      "source": "weight = (targets.getFloat(1) - targets.getFloat(0)) / (features.getFloat(1) - features.getFloat(0));\r\nSystem.out.println(\"My w = \" + weight);   //My w = 200.0",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 32,
+          "success": true
+        }
+      },
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "My w = 200.0\r\n"
+          },
+          "metadata": {},
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "id": "d8908f92-73cc-4983-9429-e2e946cc804b",
+      "cell_type": "markdown",
+      "source": "$(x^{(1)},y^{(1)}) = (1, 300) $ <br>\r\n\r\nSo $f(1) = 300 $. <br> \r\n\r\n$f(1) = w \\cdot 1 + b  = 200 \\cdot 1 + b = 300 $ <br>\r\n\r\n$b = 100 $",
+      "metadata": {
+        "language": "markdown",
+        "id": "d8908f92-73cc-4983-9429-e2e946cc804b"
+      }
+    },
+    {
+      "id": "04eb1205-631a-4de0-a751-f833d549c828",
+      "cell_type": "code",
+      "source": "bias = 100.0f;\r\n\r\nsingleVariableLinearFunction = new SingleVariablePredictFunction(weight, bias);\r\n",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 33,
+          "success": true
+        }
+      },
+      "execution_count": 33,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 33
+        }
+      ]
+    },
+    {
+      "id": "55f4bc60-5a76-4b9a-bc03-1f3199dbae6a",
+      "cell_type": "markdown",
+      "source": "$(x^{(2)},y^{(2)}) = (2, 500) $ <br>\r\n\r\nSo $f(2) $ should be $500$ :  ",
+      "metadata": {
+        "language": "markdown",
+        "id": "55f4bc60-5a76-4b9a-bc03-1f3199dbae6a"
+      }
+    },
+    {
+      "id": "cdd448a8-095f-4ded-9261-43e0a075bb57",
+      "cell_type": "code",
+      "source": "INDArray ourPredicts = singleVariableLinearFunction.apply(features);\r\nfloat ourSecondSamplePredict = ourPredicts.getFloat(1);\r\n\r\nSystem.out.println(\"Our predict = \" + ourSecondSamplePredict + \", Real = \" + 500);      //Our predict = 500.0, Real = 500",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 34,
+          "success": true
+        }
+      },
+      "execution_count": 34,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "Our predict = 500.0, Real = 500\r\n"
+          },
+          "metadata": {},
+          "execution_count": 34
+        }
+      ]
+    }
+  ]
+}
