@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.bozlak</groupId>
+    <artifactId>deeplearning-ai-java-code-labs</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <nd4j.version>1.0.0-M2.1</nd4j.version>
+        <nd4j.classifier>windows-x86_64-avx2</nd4j.classifier>
+        <slf4j.version>1.7.32</slf4j.version>
+    </properties>
+
+    <dependencies>
+        <!--
+            ND4J: n-dimensional arrays for the JVM (NumPy equivalent), CPU backend.
+            Transitively brings nd4j-api, the generic windows-x86_64 natives (selected by OS profile),
+            OpenBLAS and JavaCPP natives. Not nd4j-native-platform: that downloads every OS/arch plus MKL.
+        -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <version>${nd4j.version}</version>
+        </dependency>
+
+        <!-- Optional: AVX2-compiled natives (SIMD element-wise ops); preferred over the generic build when present -->
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native</artifactId>
+            <version>${nd4j.version}</version>
+            <classifier>${nd4j.classifier}</classifier>
+        </dependency>
+    </dependencies>
+</project>

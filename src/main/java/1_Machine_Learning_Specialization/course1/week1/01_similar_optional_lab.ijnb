@@ -1,0 +1,69 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 5,
+  "metadata": {
+    "language_info": {
+      "name": "java"
+    }
+  },
+  "cells": [
+    {
+      "id": "5402b0df-d8fc-4a92-b29e-e9520146226e",
+      "cell_type": "markdown",
+      "source": "# Course1_Week1_Optional_Lab_Model_Representation (Java Lab)",
+      "metadata": {
+        "language": "markdown",
+        "id": "5402b0df-d8fc-4a92-b29e-e9520146226e"
+      }
+    },
+    {
+      "id": "50877f29-4d2a-4a29-837f-97209fc64c14",
+      "cell_type": "markdown",
+      "source": "## Notation : ",
+      "metadata": {
+        "language": "markdown",
+        "id": "50877f29-4d2a-4a29-837f-97209fc64c14"
+      }
+    },
+    {
+      "id": "69aa9819-b8a1-4e18-a9bc-18707fa5e3b2",
+      "cell_type": "markdown",
+      "source": "- $a$ ---> scalar value \r\n- $\\vec{a}$ or $\\mathbf{a} $ (bold) ---> vector value <br>\r\nRegression : \r\n- $\\vec{x}$ ---> Training Example feature values (in this lab - Size or Area (1000 square feet)) ---> `float[] samplesFeatureValues;` <br>\r\n- $\\vec{y}$ ---> Training Example target values (in this lab Price (1000s of dollars)) ---> `float[] samplesTargetValues;` <br>\r\n- $m$ ---> Number of training examples (sample size) ---> `int sampleCount = samplesFeatureValues.lenght;` <br>\r\n- $x^{(i)}$ ---> $i^{th}$ sample feature value ---> `float iThSampleFeatureValue = samplesFeatureValues[i];` <br>\r\n- $y^{(i)}$ ---> $i^{th}$ sample target value ---> `float iThSampleTargetValue = samplesTargetValues[i];` <br>\r\n- $f$ ---> Prediction linear ***function***, also known ***hypothesis***  ($f(x) = w\\cdot x + b$) <br> ----> \r\n`java.util.function.Function<Float,Float> singleVariablePredictionFunction = x -> w * x + b;` <br>\r\n- $w$ ---> $f$'s ***weight*** ---> It is a ***scalar*** value\r\n- $b$ ---> $f$'s ***bias*** ---> It is a ***scalar*** value\r\n- $f_{w,b}(x^{(i)}) = f(x^{(i)}) = w \\cdot x^{(i)} + b$ ---> $i^{th}$ sample target predict <br> \r\n---> `float predictForIThSample = singleVariablePredictionFunction.apply(samplesFeatureValues[i]);` ",
+      "metadata": {
+        "language": "markdown",
+        "id": "69aa9819-b8a1-4e18-a9bc-18707fa5e3b2"
+      }
+    },
+    {
+      "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48",
+      "cell_type": "markdown",
+      "source": "## Tools : \r\n- ND4J : NumPy Like Java dependency `import org.nd4j.*;`\r\n",
+      "metadata": {
+        "language": "markdown",
+        "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48"
+      }
+    },
+    {
+      "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
+      "cell_type": "code",
+      "source": "import org.nd4j.linalg.api.ndarray.INDArray;",
+      "metadata": {
+        "language": "java",
+        "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
+        "executionSummary": {
+          "executionOrder": 3,
+          "success": true
+        }
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 3
+        }
+      ]
+    }
+  ]
+}
