@@ -37,7 +37,7 @@
     {
       "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48",
       "cell_type": "markdown",
-      "source": "## Tools : \r\n- ND4J : NumPy Like Java dependency `import org.nd4j.*;`\r\n",
+      "source": "## Tools : \r\n- ND4J : NumPy Like Java dependency  ---> `import org.nd4j.*;`\r\n",
       "metadata": {
         "language": "markdown",
         "id": "2fd0981a-4f5e-4f16-b1df-32a1972bbd48"
@@ -46,7 +46,7 @@
     {
       "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
       "cell_type": "code",
-      "source": "import org.nd4j.linalg.api.ndarray.INDArray;",
+      "source": "import org.nd4j.linalg.api.ndarray.INDArray;\r\nimport org.nd4j.linalg.factory.Nd4j;",
       "metadata": {
         "language": "java",
         "id": "dbcd74a0-e33a-4396-8290-d2643d4559f6",
@@ -64,6 +64,115 @@
           "execution_count": 3
         }
       ]
+    },
+    {
+      "id": "62fa04ac-a465-4964-9d0e-bae23c3ed1bc",
+      "cell_type": "markdown",
+      "source": "### We have 2 samples : (1000 sqft, 300_000 dollars) and (2000 sqft, 500_000 dollars). ",
+      "metadata": {
+        "language": "markdown",
+        "id": "62fa04ac-a465-4964-9d0e-bae23c3ed1bc"
+      }
+    },
+    {
+      "id": "3f06cf81-fc9e-476a-8f1e-5e2a5b1a034e",
+      "cell_type": "code",
+      "source": "INDArray features = Nd4j.create(new float[] {1.f, 2.f});    // [1, 2]      (1000 sqft)\r\nINDArray targets = Nd4j.create(new float[] {300.f, 500.f}); // [300, 500]  (1000s of dollars) \r\n\r\nlong sampleSize = features.length();\r\nif (sampleSize != targets.length())\r\n    throw new RuntimeException(\"Features size should be equal to Targets size !!\");\r\n\r\nSystem.out.println(\"Sample size m = \" + sampleSize);    //Sample size m = 2\r\n",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 14,
+          "success": true
+        }
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "Sample size m = 2\r\n"
+          },
+          "metadata": {},
+          "execution_count": 14
+        }
+      ]
+    },
+    {
+      "id": "f496cb3d-d0cf-4b58-8b41-a4b290245d37",
+      "cell_type": "code",
+      "source": "float weight = 100.f;\r\nfloat bias = 100.f;\r\n\r\njava.util.function.Function<Float,Float> singleVariablePredictFunction = featureValue -> weight * featureValue + bias;\r\nfloat firstSampleFeature = features.getFloat(0);\r\nfloat predictTargetFirstSample = singleVariablePredictFunction.apply(firstSampleFeature);\r\n\r\nSystem.out.println(\"First sample's feature = \" + firstSampleFeature + \"* 1000 sqft, Function predict = \" + predictTargetFirstSample + \r\n    \"*1000 dollars, Real = \" + targets.getFloat(0) + \"*1000 dollars\"\r\n);\r\n//First sample's feature = 1.0* 1000 sqft, Function predict = 200.0*1000 dollars, Real = 300.0*1000 dollars",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 22,
+          "success": true
+        }
+      },
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "First sample's feature = 1.0* 1000 sqft, Function predict = 200.0*1000 dollars, Real = 300.0*1000 dollars\r\n"
+          },
+          "metadata": {},
+          "execution_count": 22
+        }
+      ]
+    },
+    {
+      "id": "0158cd9e-7ea3-4216-b617-78038a24e952",
+      "cell_type": "code",
+      "source": "java.util.function.Function<INDArray,INDArray> singleVariablePredictFunctionForArray = featureArray -> {\r\n    int m = (int) featureArray.length();\r\n    float[] predictArray = new float[m];\r\n    for (int i = 0; i < m; i++)\r\n        predictArray[i] = singleVariablePredictFunction.apply(featureArray.getFloat(i));\r\n    return Nd4j.create(predictArray);\r\n};",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 27,
+          "success": true
+        }
+      },
+      "execution_count": 27,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {},
+          "metadata": {},
+          "execution_count": 27
+        }
+      ]
+    },
+    {
+      "id": "51557771-df73-4132-8444-7f2745cfaeee",
+      "cell_type": "code",
+      "source": "INDArray predictArray = singleVariablePredictFunctionForArray.apply(features);\r\nSystem.out.println(\"predictArray = \" + predictArray);   //toString() method overred --> //predictArray = [  200.0000,  300.0000]\r\nSystem.out.println(\"targets = \" + targets);                                             //targets = [  300.0000,  500.0000]\r\n",
+      "metadata": {
+        "language": "java",
+        "executionSummary": {
+          "executionOrder": 34,
+          "success": true
+        }
+      },
+      "execution_count": 34,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "predictArray = [  200.0000,  300.0000]\r\ntargets = [  300.0000,  500.0000]\r\n"
+          },
+          "metadata": {},
+          "execution_count": 34
+        }
+      ]
+    },
+    {
+      "id": "a2f262c1-b6a9-4073-ad24-f587c3782da2",
+      "cell_type": "code",
+      "source": "",
+      "metadata": {
+        "language": "java"
+      },
+      "execution_count": null,
+      "outputs": []
     }
   ]
 }
