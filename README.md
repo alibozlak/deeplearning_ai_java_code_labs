@@ -51,7 +51,7 @@ You can also delete the second `nd4j-native` dependency (the one with `<classifi
 deeplearning_ai_java_code_labs
 ├── pom.xml
 └── src/main/java
-    ├── 1_Machine_Learning_Specialization       <-- ML Notebooks (.ijnb)
+    ├── 1_Machine_Learning_Specialization       <-- ML Notebooks (.ijnb)(.ipynb for GitHub Preview mode)
     │   └── course1/week1
     │       ├── 01_similar_optional_lab.ijnb
     │       └── 01_second_method.ijnb
