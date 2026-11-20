@@ -8,15 +8,16 @@
 ## About This Project
 
 - I use **ND4J** for arrays. ND4J is like NumPy, but for Java.
-- I use **Java notebooks** (`.ijnb` files). You can run the code step by step, like in Jupyter.
+- I use **Java notebooks** (`.ipynb` or `.ijnb` files). You can run the code step by step, like in Jupyter.
+- Why `.ipynb`? Because of **GitHub Preview mode**. GitHub shows `.ipynb` files as notebooks, with the text, the code and the outputs. So you can read the labs on GitHub, without running anything.
 
-> **Note:** ***This is my personal Java Labs project. It is not an official DeepLearning.AI project.***
+> **Note:** This is my personal Java Labs project. It is not an official DeepLearning.AI project.
 
 ## What You Need
 
 - **Java 21** (JDK)
 - **Maven**
-- **VS Code** with the [Oracle Java Platform Extension](https://marketplace.visualstudio.com/items?itemName=Oracle.oracle-java). You need it to open and run `.ijnb` notebooks.
+- **VS Code** with the [Oracle Java Platform Extension](https://marketplace.visualstudio.com/items?itemName=Oracle.oracle-java). You need it to open and run the Java notebooks.
 
 ## How to Start
 
@@ -30,7 +31,7 @@
    The first build downloads ND4J. It is big, so it can take a few minutes.
 
 3. Open the project folder in VS Code.
-4. Open a `.ijnb` file and run the cells one by one.
+4. Open a `.ipynb` file and run the cells one by one.
 
 The notebooks use the Java classes in this project. So please build the project before you run them.
 
@@ -51,10 +52,11 @@ You can also delete the second `nd4j-native` dependency (the one with `<classifi
 deeplearning_ai_java_code_labs
 ├── pom.xml
 └── src/main/java
-    ├── 1_Machine_Learning_Specialization       <-- ML Notebooks (.ijnb)(.ipynb for GitHub Preview mode)
-    │   └── course1/week1
-    │       ├── 01_similar_optional_lab.ijnb
-    │       └── 01_second_method.ijnb
+    ├── notebooks                               <-- Notebooks (.ipynb or .ijnb)
+    │   └── 1_Machine_Learning_Specialization
+    │       └── course1/week1
+    │           ├── 01_optional_lab_model_representation.ipynb
+    │           └── 01_model_representation_2.ipynb
     └── deeplearning_ai                         <-- Java classes for the notebooks
         └── machine_learning_specialization/course1/week1
             ├── SingleVariablePredictFunction.java
@@ -67,8 +69,8 @@ deeplearning_ai_java_code_labs
 
 | Week | Notebook | What is inside? |
 |------|----------|-----------------|
-| 1 | [01_similar_optional_lab.ijnb](src/main/java/1_Machine_Learning_Specialization/course1/week1/01_similar_optional_lab.ijnb) | Model representation. The notation, a small house price data set (2 samples) and the prediction function `f(x) = w · x + b`. |
-| 1 | [01_second_method.ijnb](src/main/java/1_Machine_Learning_Specialization/course1/week1/01_second_method.ijnb) | The same model with the `SingleVariablePredictFunction` class. We find `w` and `b` with basic algebra, because 2 points make a line. |
+| 1 | [01_optional_lab_model_representation.ipynb](src/main/java/notebooks/1_Machine_Learning_Specialization/course1/week1/01_optional_lab_model_representation.ipynb) | Model representation. The notation, a small house price data set (2 samples) and the prediction function `f(x) = w · x + b`. |
+| 1 | [01_model_representation_2.ipynb](src/main/java/notebooks/1_Machine_Learning_Specialization/course1/week1/01_model_representation_2.ipynb) | The same model with the `SingleVariablePredictFunction` class. We find `w` and `b` with basic algebra, because 2 points make a line. |
 
 ### Java Classes
 
