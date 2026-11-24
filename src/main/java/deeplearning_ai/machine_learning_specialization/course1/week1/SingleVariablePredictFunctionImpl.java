@@ -8,17 +8,22 @@ public class SingleVariablePredictFunctionImpl implements SingleVariablePredictF
     private float weight;
     private float bias;
 
-    public SingleVariablePredictFunctionImpl(float weight, float bias) {
+    private static SingleVariablePredictFunctionImpl singleVariablePredictFunctionImpl;
+
+    private SingleVariablePredictFunctionImpl(float weight, float bias) {
         this.weight = weight;
         this.bias = bias;
     }
 
-    /**
-     * Defaults : <br>
-     * Weigth = w = 0.0f, <br>
-     * Bias = b = 0.0f
-     */
-    public SingleVariablePredictFunctionImpl() {
+    public static SingleVariablePredictFunctionImpl create(float weight, float bias) {
+        if (
+            singleVariablePredictFunctionImpl == null || 
+            singleVariablePredictFunctionImpl.weight != weight || 
+            singleVariablePredictFunctionImpl.bias != bias
+        ) 
+            singleVariablePredictFunctionImpl = new SingleVariablePredictFunctionImpl(weight, bias);
+
+        return singleVariablePredictFunctionImpl;
     }
 
     /**    
