@@ -26,5 +26,10 @@ public class J implements SingleVariableSingleValueFunction {
     public float calculateDerivative(float w) {
         return 2 * this.sizeOfHouse * (this.sizeOfHouse * w - this.realPrice);
     }
+
+    @Override 
+    public String getFunctionName(){
+        return "J";
+    }
     
 }
