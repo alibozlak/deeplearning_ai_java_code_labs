@@ -1,7 +1,8 @@
-# DeepLearning.AI Code Lab Notebooks for Java World
+# We are building Artificial Neural Network Step by Step (with Java)
 
 - Main Source : [DeepLearning.AI website](https://www.deeplearning.ai)
 - For Machine Learning Specialization : [Machine Learning Specialization](https://www.deeplearning.ai/specializations/machine-learning)
+- For Deep Learning Specialization : [Deep Learning Specialization](https://www.deeplearning.ai/specializations/deep-learning)
 
 ---
 
@@ -22,11 +23,22 @@ deeplearning_ai_java_code_labs
 ├── pom.xml
 └── src/main/java
     ├── notebooks                               <-- Notebooks (.ipynb or .ijnb)
-    │   └── 1_Machine_Learning_Specialization
-    │       └── course1/week1
-    │           ├── 010_optional_lab_model_representation.ipynb
-    │           └── 011_model_representation_2.ipynb
-    └── deeplearning_ai                         <-- Java classes for the notebooks
+    │   │── 1_Machine_Learning_Specialization   <-- Readying for Deep Learning
+    │   │   └── course1/week1
+    │   │       ├── 010_optional_lab_model_representation.ipynb
+    │   │       ├── 011_model_representation_2.ipynb
+    │   │       ├── ..
+    │   │       └── ..
+    │   │── 2_Deep_Learning_Specialization      <-- MAIN LABS 
+    │   │   └── course1/week1
+    │   │       ├── 010_size_of_house_and_price_ReLU.ipynb
+    │   │       ├── ..
+    │   │       └── ..
+    │   └── Math
+    │       ├── Calculus 
+    │       ├── Linear Algebra 
+    │       └── Statistics
+    └── deeplearning_ai                         <-- Java classes
         └── machine_learning_specialization/course1/week1
             ├── SingleVariablePredictFunction.java
             └── ValidateDataSet.java
